@@ -3,9 +3,6 @@ export default function SearchInput({ $target, initialState }) {
   this.$element.className = "SearchInput";
   this.state = initialState;
 
-  console.log(this.$element);
-
-  console.log($target); // target을 못받는 문제 발생,
   $target.appendChild(this.$element);
 
   this.render = () => {
