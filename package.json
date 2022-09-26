@@ -1,19 +1,23 @@
 {
-  "name": "search-programming-language",
+  "name": "web-202203-devmatching-webfe-client",
   "version": "1.0.0",
-  "description": "프로그래머스 프로그래밍 언어 검색",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve -s"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dev-only-js/search-programming-language.git"
+    "url": "git+https://github.com/grepp/web-202203-DevMatching-webfe-client.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dev-only-js/search-programming-language/issues"
+    "url": "https://github.com/grepp/web-202203-DevMatching-webfe-client/issues"
   },
-  "homepage": "https://github.com/dev-only-js/search-programming-language#readme"
+  "homepage": "https://github.com/grepp/web-202203-DevMatching-webfe-client#readme",
+  "dependencies": {
+    "serve": "^13.0.2"
+  }
 }
