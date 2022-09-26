@@ -10,5 +10,5 @@ export default function App({ $target }) {
   //     // todo
   //   };
 
-  const searchInput = new SearchInput({ $target, initialState: "" });
+  const searchInput = new SearchInput({ $target: $target, initialState: "" });
 }
