@@ -1,5 +1,7 @@
 import SearchInput from "./SearchInput.js";
 
+import { fetchLanguage } from "./api.js";
+
 export default function App({ $target }) {
   this.state = {
     fetchedLanguage: [],
@@ -10,5 +12,12 @@ export default function App({ $target }) {
   //     // todo
   //   };
 
-  const searchInput = new SearchInput({ $target: $target, initialState: "" });
+  const searchInput = new SearchInput({
+    $target: $target,
+    initialState: "",
+    onChange: async (keyword) => {
+      const language = await fetchLanguage(keyword);
+      console.log(language);
+    },
+  });
 }
