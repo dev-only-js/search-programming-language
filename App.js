@@ -19,7 +19,7 @@ export default function App({ $target }) {
     // this.state = {
     //   ...this.state,
     //   ...nextState,
-    // };
+    // }; // 이것의 문법을 익혀야함
 
     suggestion.setState({
       items: this.state.fetchedLanguages,
