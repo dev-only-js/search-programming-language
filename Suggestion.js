@@ -8,13 +8,14 @@ export default function Suggestion({ $target, initialState }) {
 
   this.setState = (nextState) => {
     // 초기화 하는 함수 마련
-    this.state = nextState;
+    this.state = nextState; // 여기까지만 작성시
+    this.render(); // 꼭 render를 추가해 주어야 한다.
   };
 
   this.render = () => {
     // 입력받은 값들을 통해서 그려주어야 한다.
     const items = this.state.items; // 해당 값들을 받아준다.
-    console.log(items);
+
     if (items.length > 0) {
       // 그려져야 함
       this.$element.style.display = "block"; // 보이도록 함,
