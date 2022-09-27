@@ -1,6 +1,6 @@
 import SearchInput from "./SearchInput.js";
 import Suggestion from "./Suggestion.js";
-
+import SelectedLanguage from "./SelectedLaguages.js";
 import { fetchLanguages } from "./api.js";
 
 export default function App({ $target }) {
@@ -26,7 +26,8 @@ export default function App({ $target }) {
       suggestionIndex: 0,
       items: this.state.fetchedLanguages,
     });
-    console.log(this.state.selectedLanguages);
+
+    selectedLanguages.setState(this.state.selectedLanguages);
   };
 
   // 둘다 각각의 인자들에게 값을 넘겨줍니다.
@@ -74,5 +75,10 @@ export default function App({ $target }) {
         selectedLanguages: nextSelectedLaguages,
       });
     },
+  });
+
+  const selectedLanguages = new SelectedLanguage({
+    $target,
+    initialState: [],
   });
 }
