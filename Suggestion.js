@@ -1,5 +1,5 @@
-export default function Suggestion({ $target, initialState }) {
-  this.$element = document.createElement("div"); // 해당 컴포넌트가 생성하여 태그 만들기
+export default function Suggestion({ $target, initialState, onSelect }) {
+  this.$element = document.createElement("div"); // 해당 컴포넌트에서 태그 만들기
   this.$element.className = "Suggestion"; // 태그 이름 설정
 
   //this.state = initialState; // ? 정확히 이해하지 못함 ,
@@ -7,6 +7,7 @@ export default function Suggestion({ $target, initialState }) {
   this.state = {
     suggestionIndex: 0,
     items: initialState.items,
+    selectedLanguages: initialState.selectedLanguages,
   };
 
   $target.appendChild(this.$element); // 현재 body 태그에 해당 div 태그를 넣어준다.
@@ -25,8 +26,8 @@ export default function Suggestion({ $target, initialState }) {
   this.render = () => {
     // 입력받은 값들을 통해서 그려주어야 한다.
     const items = this.state.items; // 해당 값들을 받아준다.
+    console.log(items);
     const selectedIndex = this.state.suggestionIndex;
-    console.log(selectedIndex);
     if (items.length > 0) {
       // 그려져야 함
       this.$element.style.display = "block"; // 보이도록 함,
@@ -34,10 +35,10 @@ export default function Suggestion({ $target, initialState }) {
         <ul>
           ${items
             .map((item, index) => {
-              return `<li  class=${
+              return `<li class="${
                 selectedIndex === index ? "Suggestion__item--selected" : ""
-              } data-index = ${index} >${item}</li>`;
-            })
+              }" data-index=${index} >${item}</li>`;
+            }) // data-set은 해당 html 태그들을 특별하게 식별할 필요가 있을 때 사용하는 방법이다.
             .join("")}
         </ul>
       `;
@@ -66,6 +67,20 @@ export default function Suggestion({ $target, initialState }) {
         if (0 < this.state.suggestionIndex) {
           this.setIndex(this.state.suggestionIndex - 1);
         }
+      } else if (e.key === "Enter") {
+        onSelect(this.state.items[this.state.suggestionIndex]);
+      }
+    }
+  });
+
+  this.$element.addEventListener("click", (e) => {
+    const $li = e.target.closest("li"); // 가장 가까운 요소를 찾는 방법이다.
+    if ($li) {
+      const { index } = $li.dataset;
+      try {
+        onSelect(this.state.items[index]);
+      } catch {
+        alert("선택할 수 없습니다.");
       }
     }
   });

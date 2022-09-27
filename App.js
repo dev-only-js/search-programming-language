@@ -12,20 +12,21 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     // nextState
-    this.state = {
-      fetchedLanguages: [...nextState.fetchedLanguages],
-      selectedLanguages: [...nextState.selectedLanguages], // 지금은 각각의 값들을 직접 초기화 해줍니다.
-    }; // 이거 문법 익히기
-
     // this.state = {
-    //   ...this.state,
-    //   ...nextState,
-    // }; // 이것의 문법을 익혀야함
+    //   fetchedLanguages: [...nextState.fetchedLanguages],
+    //   selectedLanguages: [...nextState.selectedLanguages], // 지금은 각각의 값들을 직접 초기화 해줍니다.
+    // }; // 이거 문법 익히기
+
+    this.state = {
+      ...this.state,
+      ...nextState,
+    }; // 이것의 문법을 익혀야함
 
     suggestion.setState({
       suggestionIndex: 0,
       items: this.state.fetchedLanguages,
     });
+    console.log(this.state.selectedLanguages);
   };
 
   // 둘다 각각의 인자들에게 값을 넘겨줍니다.
@@ -36,13 +37,13 @@ export default function App({ $target }) {
       if (keyword.length === 0) {
         this.setState({
           fetchedLanguages: [],
-          selectedLanguages: [],
+          selectedLanguages: [...this.state.selectedLanguages],
         });
       } else {
         const languages = await fetchLanguages(keyword);
         this.setState({
           fetchedLanguages: languages,
-          selectedLanguages: [],
+          selectedLanguages: [...this.state.selectedLanguages],
         });
       }
     },
@@ -53,6 +54,25 @@ export default function App({ $target }) {
     initialState: {
       suggestionIndex: 0,
       items: [],
+    },
+    onSelect: (laguages) => {
+      alert(laguages);
+
+      const nextSelectedLaguages = [...this.state.selectedLanguages];
+
+      const index = nextSelectedLaguages.findIndex(
+        (selectedLanguages) => selectedLanguages === laguages
+      );
+
+      if (index > -1) {
+        nextSelectedLaguages.splice(index, 1);
+      }
+      nextSelectedLaguages.push(laguages);
+
+      this.setState({
+        ...this.state,
+        selectedLanguages: nextSelectedLaguages,
+      });
     },
   });
 }
