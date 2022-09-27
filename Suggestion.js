@@ -13,14 +13,20 @@ export default function Suggestion({ $target, initialState }) {
 
   this.setState = (nextState) => {
     // 초기화 하는 함수 마련
-    this.state = nextState; // 여기까지만 작성시
+    this.state = nextState; // 여기까지만 작성시했었음
     this.render(); // 꼭 render를 추가해 주어야 한다.
+  };
+
+  this.setIndex = (number) => {
+    this.state.suggestionIndex = number;
+    this.render();
   };
 
   this.render = () => {
     // 입력받은 값들을 통해서 그려주어야 한다.
     const items = this.state.items; // 해당 값들을 받아준다.
     const selectedIndex = this.state.suggestionIndex;
+    console.log(selectedIndex);
     if (items.length > 0) {
       // 그려져야 함
       this.$element.style.display = "block"; // 보이도록 함,
@@ -43,9 +49,28 @@ export default function Suggestion({ $target, initialState }) {
   };
 
   this.render();
+  // 어떤 태그에 addEventListener를 사용할 것인지 확인해야 한다.
+  // 처음에 안되었음 왜인지는 모르겠음
+  // 왜 인지 모르겠으나 ㅑ브라우저 상에서 해당 window 객체에 event가 저장되어 새로고침 시에도 남아있는것으로 확인됨
+  // 다시 서버를 열어주어야 함
+  window.addEventListener("keyup", (e) => {
+    if (this.state.items.length > 0) {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        if (
+          0 <= this.state.suggestionIndex &&
+          this.state.suggestionIndex < this.state.items.length - 1
+        ) {
+          this.setIndex(this.state.suggestionIndex + 1);
+        }
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        if (0 < this.state.suggestionIndex) {
+          this.setIndex(this.state.suggestionIndex - 1);
+        }
+      }
+    }
+  });
 
-  // div 태그 아래에 쌓여야 하는 ul 태그 사용하기
-  // 초기화 해야함
+  // 여기서는 addeventListener로 받아 낸다.
 }
 
 // export default function Suggestion({ $target, initialState }) {

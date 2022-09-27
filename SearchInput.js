@@ -12,7 +12,10 @@ export default function SearchInput({ $target, initialState, onChange }) {
 
   this.render();
   const SearchInput = document.querySelector(".SearchInput__Input"); // .을 사용해 주어야 한다.
-  SearchInput.addEventListener("keyup", (e) => onChange(e.target.value));
+  SearchInput.addEventListener("keyup", (e) => {
+    const keyArr = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Enter"];
+    if (!keyArr.includes(e.key)) onChange(e.target.value);
+  });
 }
 // addEventListener
 // 두개의 인자로 이루어져 있으며
