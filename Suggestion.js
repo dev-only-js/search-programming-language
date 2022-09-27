@@ -5,11 +5,33 @@ export default function Suggestion({ target, initialState }) {
   target.appendChild(this.element);
 
   this.state = initialState;
+  this.cursor = 0;
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
+
+  this.setCursor = (inputKey) => {
+    switch (inputKey) {
+      case "ArrowUp":
+        this.cursor -= 1;
+        if (this.cursor < 0) {
+          this.cursor += this.state.items.length;
+        }
+        break;
+      case "ArrowDown":
+        this.cursor++;
+        if (this.cursor >= this.state.items.length) {
+          this.cursor -= this.state.items.length;
+        }
+        break;
+    }
+  };
+
+  target.addEventListener("keyup", (e) => {
+    this.setCursor(e.code);
+  });
 
   this.render = () => {
     const { items = [] } = this.state;
@@ -19,7 +41,12 @@ export default function Suggestion({ target, initialState }) {
             <ul>
                 ${items
                   .map(
-                    (item, index) => `<li data-index="${index}">${item}</ul>`
+                    (item, index) =>
+                      `<li class="${
+                        this.cursor === index
+                          ? "Suggestion__item--selected"
+                          : ""
+                      }">${item}</ul>`
                   )
                   .join("")}
             </ul>
