@@ -23,6 +23,7 @@ export default function App({ target }) {
     };
     suggestion.setState({
       items: this.state.fetchedLanguages,
+      selectedIndex: 0,
     });
   };
 
@@ -47,6 +48,7 @@ export default function App({ target }) {
     target,
     initialState: {
       items: [],
+      cursor: 0,
     },
   });
 }

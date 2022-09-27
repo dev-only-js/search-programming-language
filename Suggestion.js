@@ -1,25 +1,57 @@
-export default function Suggestion({ target, initialState }) {
+export default function Suggestion({ target, initialState, onSelect }) {
   // TODO: let으로 변수 만들어도 되는지, 된다면 왜 굳이 this를 사용한건지 알아보기
   this.element = document.createElement("div");
   this.element.className = "Suggestion";
   target.appendChild(this.element);
 
-  this.state = initialState;
+  this.state = {
+    selectedIndex: 0,
+    items: initialState.items,
+  };
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = {
+      ...this.state,
+      ...nextState,
+    };
     this.render();
   };
 
+  window.addEventListener("keyup", (e) => {
+    if (this.state.items.length > 0) {
+      const { selectedIndex } = this.state;
+      const lastIndex = this.state.items.length - 1;
+      const navigationKeys = ["ArrowUp", "ArrowDown"];
+      let nextIndex = selectedIndex;
+
+      if (navigationKeys.includes(e.key)) {
+        if (e.key === "ArrowUp")
+          nextIndex = selectedIndex === 0 ? lastIndex : nextIndex - 1;
+        else if (e.key === "ArrowDown")
+          nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1;
+      }
+
+      this.setState({
+        ...this.state,
+        selectedIndex: nextIndex,
+      });
+    }
+  });
+
   this.render = () => {
-    const { items = [] } = this.state;
+    const { items = [], selectedIndex } = this.state;
     if (items.length > 0) {
       this.element.style.display = "block";
       this.element.innerHTML = `
             <ul>
                 ${items
                   .map(
-                    (item, index) => `<li data-index="${index}">${item}</ul>`
+                    (item, index) =>
+                      `<li class="${
+                        index === selectedIndex
+                          ? "Suggestion__item--selected"
+                          : ""
+                      }">${item}</ul>`
                   )
                   .join("")}
             </ul>
