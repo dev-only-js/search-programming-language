@@ -2,7 +2,12 @@ export default function Suggestion({ $target, initialState }) {
   this.$element = document.createElement("div"); // 해당 컴포넌트가 생성하여 태그 만들기
   this.$element.className = "Suggestion"; // 태그 이름 설정
 
-  this.state = initialState; // ? 정확히 이해하지 못함 ,
+  //this.state = initialState; // ? 정확히 이해하지 못함 ,
+
+  this.state = {
+    suggestionIndex: 0,
+    items: initialState.items,
+  };
 
   $target.appendChild(this.$element); // 현재 body 태그에 해당 div 태그를 넣어준다.
 
@@ -15,17 +20,17 @@ export default function Suggestion({ $target, initialState }) {
   this.render = () => {
     // 입력받은 값들을 통해서 그려주어야 한다.
     const items = this.state.items; // 해당 값들을 받아준다.
-
+    const selectedIndex = this.state.suggestionIndex;
     if (items.length > 0) {
       // 그려져야 함
       this.$element.style.display = "block"; // 보이도록 함,
       this.$element.innerHTML = `
-
-
         <ul>
           ${items
             .map((item, index) => {
-              return `<li  data-index = ${index} >${item}</li>`;
+              return `<li  class=${
+                selectedIndex === index ? "Suggestion__item--selected" : ""
+              } data-index = ${index} >${item}</li>`;
             })
             .join("")}
         </ul>
