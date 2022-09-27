@@ -1,0 +1,24 @@
+{
+  "name": "search-programming-language",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "프로그래머스 프로그래밍 언어 검색",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve -s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-only-js/search-programming-language.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dev-only-js/search-programming-language/issues"
+  },
+  "homepage": "https://github.com/dev-only-js/search-programming-language#readme",
+  "dependencies": {
+    "serve": "^14.0.1"
+  }
+}
