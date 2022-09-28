@@ -14,6 +14,7 @@ export default function App({ target }) {
     };
     suggestion.setState({
       searchResult: this.state.searchResult,
+      selectedIndex: 0,
     });
   };
 

@@ -10,11 +10,14 @@ export default function SearchInput({ target, onChange }) {
   target.appendChild(this.element);
 
   this.element.addEventListener("keyup", async (e) => {
+    const inActivateKey = ["ArrowUp", "ArrowDown"];
     const keyword = e.target.value;
-    if (keyword !== "")
-      await Fetch(keyword).then((data) => {
-        onChange(data);
-      });
-    else onChange([]);
+
+    if (!inActivateKey.includes(e.key))
+      if (keyword !== "")
+        await Fetch(keyword).then((data) => {
+          onChange(data);
+        });
+      else onChange([]);
   });
 }

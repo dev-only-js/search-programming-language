@@ -7,6 +7,7 @@ export default function Suggestion({ target }) {
 
   this.state = {
     searchResult: [],
+    selectedIndex: 0,
   };
 
   this.setState = (nextState) => {
@@ -19,11 +20,16 @@ export default function Suggestion({ target }) {
 
   this.render = () => {
     const searchResult = this.state.searchResult;
-    console.log(searchResult);
+    const selectedIndex = this.state.selectedIndex;
     if (searchResult.length > 0) {
       this.element.innerHTML = `
             ${searchResult
-              .map((language) => `<li class="">${language}</li>`)
+              .map(
+                (language, index) =>
+                  `<li class="${
+                    selectedIndex === index ? "Suggestion__item--selected" : ""
+                  }">${language}</li>`
+              )
               .join("")}
         `;
       this.element.style.display = "block";
@@ -31,6 +37,31 @@ export default function Suggestion({ target }) {
       this.element.style.display = "none";
     }
   };
+
+  window.addEventListener("keyup", (e) => {
+    const activateKey = ["ArrowUp", "ArrowDown"];
+    const lastIndex = this.state.searchResult.length - 1;
+    if (activateKey.includes(e.key)) {
+      switch (e.key) {
+        case "ArrowUp":
+          this.setState({
+            selectedIndex:
+              this.state.selectedIndex === 0
+                ? lastIndex
+                : this.state.selectedIndex - 1,
+          });
+          break;
+        case "ArrowDown":
+          this.setState({
+            selectedIndex:
+              this.state.selectedIndex === lastIndex
+                ? 0
+                : this.state.selectedIndex + 1,
+          });
+          break;
+      }
+    }
+  });
 
   this.render();
 }
