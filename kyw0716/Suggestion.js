@@ -1,4 +1,8 @@
-export default function Suggestion({ target, initialState }) {
+export default function Suggestion({
+  target,
+  initialState,
+  handleSelectLanguage,
+}) {
   // TODO: let으로 변수 만들어도 되는지, 된다면 왜 굳이 this를 사용한건지 알아보기
   this.element = document.createElement("div");
   this.element.className = "Suggestion";
@@ -9,6 +13,8 @@ export default function Suggestion({ target, initialState }) {
     items: initialState.items,
   };
 
+  this.currentSelectedLanguage = "";
+
   this.setState = (nextState) => {
     this.state = {
       ...this.state,
@@ -18,7 +24,7 @@ export default function Suggestion({ target, initialState }) {
   };
 
   window.addEventListener("keyup", (e) => {
-    const enableKey = ["ArrowUp", "ArrowDown"];
+    const enableKey = ["ArrowUp", "ArrowDown", "Enter"];
     if (enableKey.includes(e.key)) {
       const { selectedIndex } = this.state;
       const lastIndex = this.state.items.length - 1;
@@ -29,6 +35,9 @@ export default function Suggestion({ target, initialState }) {
           break;
         case "ArrowDown":
           nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1;
+          break;
+        case "Enter":
+          handleSelectLanguage(this.currentSelectedLanguage);
           break;
       }
 
@@ -46,14 +55,16 @@ export default function Suggestion({ target, initialState }) {
       this.element.innerHTML = `
             <ul>
                 ${items
-                  .map(
-                    (item, index) =>
-                      `<li class="${
-                        this.state.selectedIndex === index
-                          ? "Suggestion__item--selected"
-                          : ""
-                      }">${item}</ul>`
-                  )
+                  .map((item, index) => {
+                    if (this.state.selectedIndex === index) {
+                      this.currentSelectedLanguage = item;
+                    }
+                    return `<li class="${
+                      this.state.selectedIndex === index
+                        ? "Suggestion__item--selected"
+                        : ""
+                    }">${item}</ul>`;
+                  })
                   .join("")}
             </ul>
         `;

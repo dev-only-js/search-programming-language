@@ -2,6 +2,7 @@ import SearchInput from "./SearchInput.js";
 import Suggestion from "./Suggestion.js";
 
 import { fetchLanguages } from "./api.js";
+import SelectedLanguages from "./SelectedLanguages.js";
 
 export default function App({ target }) {
   this.state = {
@@ -11,25 +12,34 @@ export default function App({ target }) {
   };
 
   this.setState = (nextState) => {
-    // TODO: 구조분해 할당 공부해보기 + 수현이형한테 이거 물어보기
+    // TODO: 구조분해 할당 공부해보기
     this.state = {
-      // ...this.state,
-      // ...nextState,
-      fetchedLanguages: nextState.fetchedLanguages
-        ? [...nextState.fetchedLanguages]
-        : [...this.state.fetchedLanguages],
-      selectedLanguages: nextState.selectedLanguages
-        ? [...this.state.selectedLanguages, ...nextState.selectedLanguages]
-        : [...this.state.selectedLanguages],
-      selectedIndex: nextState.selectedIndex
-        ? nextState.selectedIndex
-        : this.state.selectedIndex,
+      ...this.state,
+      ...nextState,
+      // fetchedLanguages: nextState.fetchedLanguages
+      //   ? [...nextState.fetchedLanguages]
+      //   : [...this.state.fetchedLanguages],
+      // selectedLanguages: nextState.selectedLanguages
+      //   ? [...this.state.selectedLanguages, ...nextState.selectedLanguages]
+      //   : [...this.state.selectedLanguages],
+      // selectedIndex: nextState.selectedIndex
+      //   ? nextState.selectedIndex
+      //   : this.state.selectedIndex,
     };
     suggestion.setState({
       items: this.state.fetchedLanguages,
       selectedIndex: 0,
     });
+    selectedLanguage.setState({
+      selectedLanguages: this.state.selectedLanguages,
+    });
   };
+
+  const selectedLanguage = new SelectedLanguages({
+    initialState: {
+      selectedLanguages: [],
+    },
+  });
 
   const searchInput = new SearchInput({
     target,
@@ -52,6 +62,20 @@ export default function App({ target }) {
     target,
     initialState: {
       items: [],
+    },
+    handleSelectLanguage: (selectedLanguage) => {
+      if (
+        !this.state.selectedLanguages.includes(selectedLanguage) &&
+        selectedLanguage !== ""
+      ) {
+        this.setState({
+          ...this.state,
+          selectedLanguages:
+            this.state.selectedLanguages.length === 5
+              ? [...this.state.selectedLanguages.splice(1, 4), selectedLanguage]
+              : [...this.state.selectedLanguages, selectedLanguage],
+        });
+      }
     },
   });
 }
