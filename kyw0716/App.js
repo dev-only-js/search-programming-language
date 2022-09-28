@@ -7,6 +7,7 @@ export default function App({ target }) {
   this.state = {
     fetchedLanguages: [],
     selectedLanguages: [],
+    selectedIndex: 0,
   };
 
   this.setState = (nextState) => {
@@ -20,9 +21,13 @@ export default function App({ target }) {
       selectedLanguages: nextState.selectedLanguages
         ? [...this.state.selectedLanguages, ...nextState.selectedLanguages]
         : [...this.state.selectedLanguages],
+      selectedIndex: nextState.selectedIndex
+        ? nextState.selectedIndex
+        : this.state.selectedIndex,
     };
     suggestion.setState({
       items: this.state.fetchedLanguages,
+      selectedIndex: 0,
     });
   };
 
