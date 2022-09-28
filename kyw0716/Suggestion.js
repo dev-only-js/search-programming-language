@@ -11,6 +11,7 @@ export default function Suggestion({
   this.state = {
     selectedIndex: 0,
     items: initialState.items,
+    currentInput: "",
   };
 
   this.currentSelectedLanguage = "";
@@ -56,6 +57,15 @@ export default function Suggestion({
             <ul>
                 ${items
                   .map((item, index) => {
+                    const regexp = new RegExp(
+                      `${this.state.currentInput}`,
+                      "gi"
+                    );
+                    // replace 함수 사용시 일치하는 해당 부분을 그대로 사용하고 싶다면 $&를 사용하면 된다.
+                    const renderItem = item.replace(
+                      regexp,
+                      `<span class="Suggestion__item--matched">$&</span>`
+                    );
                     if (this.state.selectedIndex === index) {
                       this.currentSelectedLanguage = item;
                     }
@@ -63,7 +73,7 @@ export default function Suggestion({
                       this.state.selectedIndex === index
                         ? "Suggestion__item--selected"
                         : ""
-                    }">${item}</ul>`;
+                    }">${renderItem}</ul>`;
                   })
                   .join("")}
             </ul>
