@@ -1,4 +1,5 @@
 import SearchInput from "./SearchInput.js";
+import Suggestion from "./Suggestion.js";
 
 export default function App({ target }) {
   this.state = {
@@ -11,7 +12,9 @@ export default function App({ target }) {
       ...this.state,
       ...nextState,
     };
-    console.log(this.state.searchResult);
+    suggestion.setState({
+      searchResult: this.state.searchResult,
+    });
   };
 
   const searchInput = new SearchInput({
@@ -21,5 +24,9 @@ export default function App({ target }) {
         searchResult: fetchedLanguages,
       });
     },
+  });
+
+  const suggestion = new Suggestion({
+    target: target,
   });
 }

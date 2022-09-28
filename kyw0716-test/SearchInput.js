@@ -15,5 +15,6 @@ export default function SearchInput({ target, onChange }) {
       await Fetch(keyword).then((data) => {
         onChange(data);
       });
+    else onChange([]);
   });
 }
