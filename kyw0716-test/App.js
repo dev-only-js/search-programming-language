@@ -6,6 +6,7 @@ export default function App({ target }) {
   this.state = {
     searchResult: [],
     selectedLanguages: [],
+    currentInput: "",
   };
 
   this.setState = (nextState) => {
@@ -16,6 +17,7 @@ export default function App({ target }) {
     suggestion.setState({
       searchResult: this.state.searchResult,
       selectedIndex: 0,
+      currentInput: this.state.currentInput,
     });
   };
 
@@ -24,6 +26,12 @@ export default function App({ target }) {
     onChange: (fetchedLanguages) => {
       this.setState({
         searchResult: fetchedLanguages,
+      });
+    },
+    setCurrentInput: (input) => {
+      this.setState({
+        ...this.state,
+        currentInput: input,
       });
     },
   });

@@ -8,6 +8,7 @@ export default function Suggestion({ target, selectLanguage }) {
   this.state = {
     searchResult: [],
     selectedIndex: 0,
+    currentInput: "",
   };
 
   this.setState = (nextState) => {
@@ -24,12 +25,16 @@ export default function Suggestion({ target, selectLanguage }) {
     if (searchResult.length > 0) {
       this.element.innerHTML = `
             ${searchResult
-              .map(
-                (language, index) =>
-                  `<li class="${
-                    selectedIndex === index ? "Suggestion__item--selected" : ""
-                  }">${language}</li>`
-              )
+              .map((item, index) => {
+                const regexp = new RegExp(this.state.currentInput, "ig");
+                const language = item.replace(
+                  regexp,
+                  `<span class="Suggestion__item--matched">$&</span>`
+                );
+                return `<li class="${
+                  selectedIndex === index ? "Suggestion__item--selected" : ""
+                }">${language}</li>`;
+              })
               .join("")}
         `;
       this.element.style.display = "block";
@@ -67,7 +72,11 @@ export default function Suggestion({ target, selectLanguage }) {
   });
 
   this.element.addEventListener("click", (e) => {
-    selectLanguage(e.target.innerHTML);
+    selectLanguage(
+      e.target.innerHTML
+        .replace(/\<span class=\"Suggestion\_\_item\-\-matched\"\>/g, "")
+        .replace(/\<\/span\>/g, "")
+    );
   });
 
   this.render();
