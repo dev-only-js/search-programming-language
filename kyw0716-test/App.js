@@ -31,11 +31,16 @@ export default function App({ target }) {
     target: target,
     selectLanguage: (language) => {
       if (!this.state.selectedLanguages.includes(language)) {
+        let selectedArray = [...this.state.selectedLanguages, language];
+        if (selectedArray.length > 5) {
+          selectedArray = selectedArray.splice(1, 5);
+        }
         this.state = {
           ...this.state,
-          selectedLanguages: [...this.state.selectedLanguages, language],
+          selectedLanguages: selectedArray,
         };
       }
+      console.log(this.state.selectedLanguages);
     },
   });
 }
