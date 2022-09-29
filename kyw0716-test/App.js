@@ -50,5 +50,16 @@ export default function App({ target }) {
 
   const selectedLanguages = new SelectedLanguages({
     target: document.querySelector(".SelectedLanguage"),
+    deleteLanguage: (language) => {
+      this.state = {
+        ...this.state,
+        selectedLanguages: this.state.selectedLanguages.filter(
+          (l) => l !== language
+        ),
+      };
+      selectedLanguages.setState({
+        selectedLanguages: this.state.selectedLanguages,
+      });
+    },
   });
 }

@@ -1,4 +1,4 @@
-export default function SelectedLanguages({ target }) {
+export default function SelectedLanguages({ target, deleteLanguage }) {
   this.state = {
     selectedLanguages: [],
   };
@@ -8,17 +8,24 @@ export default function SelectedLanguages({ target }) {
       ...this.state,
       ...nextState,
     };
-    console.log(this.state.selectedLanguages);
     this.render();
   };
 
   this.render = () => {
     target.innerHTML = `
         ${this.state.selectedLanguages
-          .map((item) => `<li style="margin-right: 8px;">${item}</li>`)
+          .map(
+            (item) =>
+              `<li style="margin-right: 8px; cursor: pointer;">${item}</li>`
+          )
           .join("")}
     `;
   };
+
+  target.addEventListener("click", (e) => {
+    console.log(e.target.innerHTML);
+    deleteLanguage(e.target.innerHTML);
+  });
 
   this.render();
 }
