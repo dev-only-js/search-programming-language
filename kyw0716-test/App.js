@@ -39,8 +39,8 @@ export default function App({ target }) {
           ...this.state,
           selectedLanguages: selectedArray,
         };
+        console.log(this.state.selectedLanguages);
       }
-      console.log(this.state.selectedLanguages);
     },
   });
 }

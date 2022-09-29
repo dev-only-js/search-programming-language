@@ -66,5 +66,9 @@ export default function Suggestion({ target, selectLanguage }) {
     }
   });
 
+  this.element.addEventListener("click", (e) => {
+    selectLanguage(e.target.innerHTML);
+  });
+
   this.render();
 }
