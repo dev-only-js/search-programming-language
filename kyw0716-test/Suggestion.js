@@ -1,4 +1,4 @@
-export default function Suggestion({ target }) {
+export default function Suggestion({ target, selectLanguage }) {
   this.element = document.createElement("ul");
   this.element.className = "Suggestion";
   this.element.style.display = "none";
@@ -39,7 +39,7 @@ export default function Suggestion({ target }) {
   };
 
   window.addEventListener("keyup", (e) => {
-    const activateKey = ["ArrowUp", "ArrowDown"];
+    const activateKey = ["ArrowUp", "ArrowDown", "Enter"];
     const lastIndex = this.state.searchResult.length - 1;
     if (activateKey.includes(e.key)) {
       switch (e.key) {
@@ -58,6 +58,9 @@ export default function Suggestion({ target }) {
                 ? 0
                 : this.state.selectedIndex + 1,
           });
+          break;
+        case "Enter":
+          selectLanguage(this.state.searchResult[this.state.selectedIndex]);
           break;
       }
     }

@@ -29,5 +29,13 @@ export default function App({ target }) {
 
   const suggestion = new Suggestion({
     target: target,
+    selectLanguage: (language) => {
+      if (!this.state.selectedLanguages.includes(language)) {
+        this.state = {
+          ...this.state,
+          selectedLanguages: [...this.state.selectedLanguages, language],
+        };
+      }
+    },
   });
 }
