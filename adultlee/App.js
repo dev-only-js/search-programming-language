@@ -1,65 +1,52 @@
-import SearchInput from "./SearchInput.js";
-import Suggestion from "./Suggestion.js";
-import SelectedLanguage from "./SelectedLaguages.js";
-import { fetchLanguages } from "./api.js";
+// 여기에는 import될 여러 요소들이 들어갑니다.
+import SearchInput from "./components/SearchInput.js";
+import Suggestion from "./components/Suggestion.js";
+import { fetchLaguages } from "./api.js";
+import SelectedLaguages from "./components/SelectedLaguages.js";
+
+const MAX_NUMBER = 5;
 
 export default function App({ $target }) {
   this.state = {
-    fetchedLanguages: [],
-    selectedLanguages: [],
-  }; //  관리할 변수들입니다.
-  // 내가 fetch를 통해서 가져올 언어들, 그리고 내가 선택한 언어들을 의미합니다.
+    fetchedLaguages: [],
+    selectedLaguages: [],
+  };
 
   this.setState = (nextState) => {
-    // nextState
-    // this.state = {
-    //   fetchedLanguages: [...nextState.fetchedLanguages],
-    //   selectedLanguages: [...nextState.selectedLanguages], // 지금은 각각의 값들을 직접 초기화 해줍니다.
-    // }; // 이거 문법 익히기
-
     this.state = {
       ...this.state,
       ...nextState,
-    }; // 이것의 문법을 익혀야함
-
-    suggestion.setState({
-      suggestionIndex: 0,
-      items: this.state.fetchedLanguages,
-    });
-
-    selectedLanguages.setState(this.state.selectedLanguages);
+    };
+    suggestion.setLaguages(nextState.fetchedLaguages);
+    selectedLaguages.setState(nextState.selectedLaguages);
   };
-
-  // 둘다 각각의 인자들에게 값을 넘겨줍니다.
   const searchInput = new SearchInput({
     $target: $target,
     initialState: "",
     onChange: async (keyword) => {
-      if (keyword.length === 0) {
+      //항상 async를 추가해 주어야 한다
+      if (keyword.length > 0) {
+        const languages = await fetchLaguages(keyword);
         this.setState({
-          fetchedLanguages: [],
-          selectedLanguages: [...this.state.selectedLanguages],
+          fetchedLaguages: languages,
+          selectedLaguages: this.state.selectedLaguages,
         });
       } else {
-        const languages = await fetchLanguages(keyword);
         this.setState({
-          fetchedLanguages: languages,
-          selectedLanguages: [...this.state.selectedLanguages],
+          fetchedLaguages: [],
+          selectedLaguages: this.state.selectedLaguages,
         });
       }
     },
   });
 
   const suggestion = new Suggestion({
-    $target,
-    initialState: {
-      suggestionIndex: 0,
-      items: [],
-    },
+    $target: $target,
+    initialState: this.state.fetchedLaguages,
     onSelect: (laguages) => {
       alert(laguages);
 
-      const nextSelectedLaguages = [...this.state.selectedLanguages];
+      const nextSelectedLaguages = [...this.state.selectedLaguages];
 
       const index = nextSelectedLaguages.findIndex(
         (selectedLanguages) => selectedLanguages === laguages
@@ -72,13 +59,13 @@ export default function App({ $target }) {
 
       this.setState({
         ...this.state,
-        selectedLanguages: nextSelectedLaguages,
+        selectedLaguages: nextSelectedLaguages,
       });
     },
   });
 
-  const selectedLanguages = new SelectedLanguage({
-    $target,
-    initialState: [],
+  const selectedLaguages = new SelectedLaguages({
+    $target: $target,
+    initialState: this.state.selectedLaguages,
   });
 }
