@@ -1,4 +1,5 @@
 import SearchInput from "./SearchInput.js";
+import SelectedLanguages from "./SelectedLanguages.js";
 import Suggestion from "./Suggestion.js";
 
 export default function App({ target }) {
@@ -39,8 +40,15 @@ export default function App({ target }) {
           ...this.state,
           selectedLanguages: selectedArray,
         };
+        selectedLanguages.setState({
+          selectedLanguages: this.state.selectedLanguages,
+        });
         console.log(this.state.selectedLanguages);
       }
     },
+  });
+
+  const selectedLanguages = new SelectedLanguages({
+    target: document.querySelector(".SelectedLanguage"),
   });
 }
